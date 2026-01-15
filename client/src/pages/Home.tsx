@@ -132,8 +132,8 @@ export default function Home() {
         let centerY = 0; 
         let detectedView: keyof typeof TSHIRT_VIEWS = "front";
 
-        const sideViewThreshold = 0.08; 
-        const isSideView = shoulderDistance < sideViewThreshold && !isFacingAway && (Math.abs(leftShoulder.z - rightShoulder.z) > 0.1);
+        const sideViewThreshold = 0.12; 
+        const isSideView = shoulderDistance < sideViewThreshold && !isFacingAway && (Math.abs(leftShoulder.z - rightShoulder.z) > 0.08);
         
         if (isSideView) {
           detectedView = leftShoulder.z < rightShoulder.z ? "right" : "left";
