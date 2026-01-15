@@ -313,7 +313,7 @@ export default function Home() {
                   <span className="text-sm font-medium">{poseDetected ? 'Tracking active' : 'Detecting...'}</span>
                 </div>
 
-                {sizeData && poseDetected && (
+                {sizeData && poseDetected && (view === 'front' || view === 'back') && (
                   <div className="flex flex-col items-end gap-1 animate-in fade-in slide-in-from-top-2 duration-300">
                     <div className="px-4 py-2 rounded-2xl bg-white/60 backdrop-blur-xl border border-black/10 shadow-xl flex items-center gap-4 text-black">
                       <div className="flex flex-col">
