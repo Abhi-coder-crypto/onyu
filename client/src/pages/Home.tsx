@@ -67,6 +67,16 @@ export default function Home() {
     const distanceScore = Math.max(0, 1 - Math.abs(normShoulderWidth - 0.25) * 2);
     let confidence = 70 + (distanceScore * 25);
 
+    // Only suggest size if we have good tracking of key landmarks
+    const leftHip = landmarks[23];
+    const rightHip = landmarks[24];
+    const hasLowerBody = (leftHip.visibility || 0) > 0.5 && (rightHip.visibility || 0) > 0.5;
+    
+    // If we can't see enough of the body, we shouldn't be confident in the size
+    if (!hasLowerBody) {
+      return null;
+    }
+
     return {
       size,
       confidence: Math.round(Math.min(99, confidence)),
