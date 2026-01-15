@@ -79,6 +79,8 @@ export default function Home() {
       setPoseDetected(isTracking);
 
       if (isTracking) {
+        const data = calculateSize(landmarks, videoWidth, videoHeight);
+        setSizeData(data);
         const shoulderDistance = Math.abs(leftShoulder.x - rightShoulder.x);
         
         const faceVisibilityThreshold = 0.2;
@@ -236,6 +238,28 @@ export default function Home() {
                   <div className={`w-2 h-2 rounded-full ${poseDetected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
                   <span className="text-sm font-medium">{poseDetected ? 'Tracking active' : 'Detecting...'}</span>
                 </div>
+
+                {sizeData && poseDetected && (
+                  <div className="flex flex-col items-end gap-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="px-4 py-2 rounded-2xl bg-white/60 backdrop-blur-xl border border-black/10 shadow-xl flex items-center gap-4 text-black">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-black/40 leading-none">Suggested Size</span>
+                        <span className="text-2xl font-black leading-none">{sizeData.size}</span>
+                      </div>
+                      <div className="h-8 w-[1px] bg-black/5" />
+                      <div className="flex flex-col items-end">
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-black/40 leading-none">Fit Confidence</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-lg font-bold tabular-nums leading-none">{sizeData.confidence}%</span>
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-black text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                      {sizeData.label}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Side Actions */}
