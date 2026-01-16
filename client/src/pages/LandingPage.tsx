@@ -36,9 +36,15 @@ export default function LandingPage() {
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Home</a>
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">New Arrivals</a>
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Trending</a>
-            <div className="flex items-center gap-1 cursor-pointer group whitespace-nowrap">
+            <div className="flex items-center gap-1 cursor-pointer group whitespace-nowrap relative">
               <span className="text-base font-bold uppercase tracking-[0.2em] group-hover:text-primary/70 transition-colors">Categories</span>
               <ChevronDown className="w-5 h-5 group-hover:text-primary/70 transition-colors" />
+              
+              {/* Dropdown Menu */}
+              <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-black/5 shadow-2xl rounded-2xl py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                <a href="#" className="block px-6 py-2 text-sm font-bold uppercase tracking-widest hover:bg-zinc-50 transition-colors text-black">Shirts</a>
+                <a href="#" className="block px-6 py-2 text-sm font-bold uppercase tracking-widest hover:bg-zinc-50 transition-colors text-black">T-Shirts</a>
+              </div>
             </div>
           </nav>
 
