@@ -11,15 +11,15 @@ import {
 } from "@/components/ui/accordion";
 import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1768302850224.png";
 
-const TSHIRTS = [
-  { id: 1, image: "/tshirt-front.png", name: "Front View" },
-  { id: 2, image: "/tshirt-back.png", name: "Back View" },
-  { id: 3, image: "/tshirt-left.png", name: "Left View" },
-  { id: 4, image: "/tshirt-right.png", name: "Right View" },
+const SHIRTS = [
+  { id: 1, image: "/shirt-front.png", name: "Front View" },
+  { id: 2, image: "/shirt-back.png", name: "Back View" },
+  { id: 3, image: "/shirt-left.png", name: "Left View" },
+  { id: 4, image: "/shirt-right.png", name: "Right View" },
 ];
 
-export default function LandingPage() {
-  const [selectedImage, setSelectedImage] = useState(TSHIRTS[0].image);
+export default function ShirtLandingPage() {
+  const [selectedImage, setSelectedImage] = useState(SHIRTS[0].image);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -33,7 +33,7 @@ export default function LandingPage() {
           </div>
           
           <nav className="hidden lg:flex items-center justify-center flex-1 px-4 space-x-8">
-            <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Home</a>
+            <Link href="/" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Home</Link>
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">New Arrivals</a>
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Trending</a>
             <div className="flex items-center gap-1 cursor-pointer group whitespace-nowrap relative">
@@ -42,8 +42,8 @@ export default function LandingPage() {
               
               {/* Dropdown Menu */}
               <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-black/5 shadow-2xl rounded-2xl py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                <a href="#" className="block px-6 py-2 text-sm font-bold uppercase tracking-widest hover:bg-zinc-50 transition-colors text-black">Shirts</a>
-                <a href="#" className="block px-6 py-2 text-sm font-bold uppercase tracking-widest hover:bg-zinc-50 transition-colors text-black">T-Shirts</a>
+                <Link href="/shirts" className="block px-6 py-2 text-sm font-bold uppercase tracking-widest hover:bg-zinc-50 transition-colors text-black">Shirts</Link>
+                <Link href="/" className="block px-6 py-2 text-sm font-bold uppercase tracking-widest hover:bg-zinc-50 transition-colors text-black">T-Shirts</Link>
               </div>
             </div>
           </nav>
@@ -74,7 +74,7 @@ export default function LandingPage() {
           <span>/</span>
           <a href="#" className="hover:text-black">Products</a>
           <span>/</span>
-          <span className="text-black font-semibold">Midnight Essential T-Shirt</span>
+          <span className="text-black font-semibold">Premium Oxford Shirt</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
@@ -89,7 +89,7 @@ export default function LandingPage() {
               
               {/* Try On Button Overlay */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/5 backdrop-blur-[2px]">
-                <Link href="/try-on">
+                <Link href="/try-on-shirt">
                   <Button size="lg" className="rounded-full px-8 py-6 h-auto text-lg font-bold shadow-2xl bg-black text-white hover:bg-black/90 hover-elevate active-elevate-2">
                     <Zap className="mr-2 w-6 h-6 fill-current text-white" />
                     TRY ON NOW
@@ -100,17 +100,17 @@ export default function LandingPage() {
 
             {/* Thumbnails */}
             <div className="grid grid-cols-4 gap-6">
-              {TSHIRTS.map((tshirt) => (
+              {SHIRTS.map((shirt) => (
                 <button
-                  key={tshirt.id}
-                  onClick={() => setSelectedImage(tshirt.image)}
-                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex items-center justify-center overflow-hidden border transition-all duration-300 ${
-                    selectedImage === tshirt.image ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
+                  key={shirt.id}
+                  onClick={() => setSelectedImage(shirt.image)}
+                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex items-center justify-center overflow-hidden border transition-all duration-300 \${
+                    selectedImage === shirt.image ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
                   }`}
                 >
                   <img 
-                    src={tshirt.image} 
-                    alt={tshirt.name} 
+                    src={shirt.image} 
+                    alt={shirt.name} 
                     className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110"
                   />
                   {/* Small Try On Icon on Thumbnails */}
@@ -130,8 +130,8 @@ export default function LandingPage() {
               <Badge variant="secondary" className="rounded-full px-4 py-1 uppercase tracking-[0.2em] text-[10px] font-bold border-black/5 bg-zinc-100 text-black">
                 Bestseller
               </Badge>
-              <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tighter text-black">Midnight Essential T-Shirt</h1>
-              <p className="text-muted-foreground text-sm uppercase tracking-widest">Black Premium Organic Cotton</p>
+              <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tighter text-black">Premium Oxford Shirt</h1>
+              <p className="text-muted-foreground text-sm uppercase tracking-widest">White Classic Fit</p>
               
               <div className="flex items-center gap-4 pt-2">
                 <div className="flex text-black">
@@ -139,26 +139,26 @@ export default function LandingPage() {
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">5.0 (124 reviews)</span>
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">4.9 (86 reviews)</span>
               </div>
             </div>
 
             <div className="flex items-baseline gap-4">
-              <span className="text-4xl font-bold tracking-tighter text-black">₹3,750.00</span>
-              <span className="text-lg text-muted-foreground line-through">₹4,999.00</span>
-              <Badge variant="destructive" className="rounded-full bg-red-100 text-red-600 border-none font-bold">25% OFF</Badge>
+              <span className="text-4xl font-bold tracking-tighter text-black">₹4,250.00</span>
+              <span className="text-lg text-muted-foreground line-through">₹5,999.00</span>
+              <Badge variant="destructive" className="rounded-full bg-red-100 text-red-600 border-none font-bold">29% OFF</Badge>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-bold uppercase tracking-widest text-black">Available Colors:</span>
-                  <span className="text-xs text-muted-foreground">Midnight Black</span>
+                  <span className="text-xs text-muted-foreground">Classic White</span>
                 </div>
                 <div className="flex gap-3">
-                  <div className="w-10 h-10 rounded-full bg-black ring-2 ring-black ring-offset-2 ring-offset-white cursor-pointer" />
-                  <div className="w-10 h-10 rounded-full bg-zinc-200 ring-1 ring-black/10 hover:ring-black/30 cursor-pointer" />
-                  <div className="w-10 h-10 rounded-full bg-zinc-400 ring-1 ring-black/10 hover:ring-black/30 cursor-pointer" />
+                  <div className="w-10 h-10 rounded-full bg-white border border-black/10 ring-2 ring-black ring-offset-2 ring-offset-white cursor-pointer" />
+                  <div className="w-10 h-10 rounded-full bg-blue-100 border border-black/10 hover:ring-black/30 cursor-pointer" />
+                  <div className="w-10 h-10 rounded-full bg-zinc-200 border border-black/10 hover:ring-black/30 cursor-pointer" />
                 </div>
               </div>
             </div>
@@ -188,24 +188,16 @@ export default function LandingPage() {
               <AccordionItem value="description" className="border-b border-black/5">
                 <AccordionTrigger className="text-xs font-bold uppercase tracking-[0.2em] hover:no-underline text-black">Product Description</AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed text-sm">
-                  Crafted from 100% organic cotton, the Midnight Essential features a tailored fit that maintains its shape. Perfect for both casual outings and layered looks.
+                  Premium oxford shirt made from high-quality cotton. Features a classic fit with a button-down collar, perfect for both formal and smart-casual occasions.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="details" className="border-b border-black/5">
                 <AccordionTrigger className="text-xs font-bold uppercase tracking-[0.2em] hover:no-underline text-black">Product Details</AccordionTrigger>
                 <AccordionContent className="text-muted-foreground text-sm">
-                  - 100% Organic Cotton<br />
-                  - Sustainably Sourced<br />
-                  - Pre-shrunk Fabric<br />
-                  - Reinforced Stitching
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="specification" className="border-b border-black/5">
-                <AccordionTrigger className="text-xs font-bold uppercase tracking-[0.2em] hover:no-underline text-black">Product Specification</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-sm">
-                  - Weight: 220 GSM<br />
-                  - Fit: Modern Regular<br />
-                  - Origin: India
+                  - 100% Premium Cotton<br />
+                  - Button-down Collar<br />
+                  - Adjustable Cuffs<br />
+                  - Reinforced Buttons
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
