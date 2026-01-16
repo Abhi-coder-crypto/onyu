@@ -206,15 +206,14 @@ export default function ShirtHome() {
           const stableSideWidthPx = bodyHeightPx * 0.8;
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
-          // SIGNIFICANTLY increase width multiplier for Shirts to fix "too small" issue
           const drawWidth = currentShoulderWidthPx * ((stableView === "left" || stableView === "right") ? 2.2 : 3.2); 
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
           if (stableView === "right" || stableView === "left") {
             centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.25);
           } else {
-            // Lowered centering for better alignment with neck/torso
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.35);
+            // Raised vertical centering for shirts (changed from 0.35 to 0.22 to match the neck better)
+            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
           }
 
           ctx.translate(centerX, centerY);
