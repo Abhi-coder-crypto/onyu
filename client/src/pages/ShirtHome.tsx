@@ -203,7 +203,7 @@ export default function ShirtHome() {
   useEffect(() => {
     if (!poseRef.current) {
       poseRef.current = new Pose({
-        locateFile: (file) => \`https://cdn.jsdelivr.net/npm/@mediapipe/pose/\${file}\`,
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
       });
       poseRef.current.setOptions({
         modelComplexity: 1,
@@ -242,7 +242,7 @@ export default function ShirtHome() {
       setIsSaving(true);
       const dataUrl = canvasRef.current.toDataURL("image/png");
       const link = document.createElement("a");
-      link.download = \`try-on-\${new Date().getTime()}.png\`;
+      link.download = `try-on-\${new Date().getTime()}.png`;
       link.href = dataUrl;
       document.body.appendChild(link);
       link.click();
@@ -286,7 +286,7 @@ export default function ShirtHome() {
                 </Button>
                 
                 <div className="px-4 py-2 rounded-full bg-white/40 backdrop-blur-md border border-black/10 flex items-center gap-2 text-black">
-                  <div className={\`w-2 h-2 rounded-full \${poseDetected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}\`} />
+                  <div className={`w-2 h-2 rounded-full \${poseDetected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
                   <span className="text-sm font-medium">{poseDetected ? 'Tracking active' : 'Detecting...'}</span>
                 </div>
 
@@ -302,7 +302,7 @@ export default function ShirtHome() {
                         <span className="text-[10px] uppercase font-bold tracking-wider text-black/40 leading-none">Fit Confidence</span>
                         <div className="flex items-center gap-1.5">
                           <span className="text-lg font-bold tabular-nums leading-none">{sizeData.confidence}%</span>
-                          <div className={\`w-1.5 h-1.5 rounded-full \${sizeData.confidence > 80 ? 'bg-green-500' : 'bg-yellow-500'}\`} />
+                          <div className={`w-1.5 h-1.5 rounded-full \${sizeData.confidence > 80 ? 'bg-green-500' : 'bg-yellow-500'}`} />
                         </div>
                       </div>
                     </div>
@@ -332,9 +332,9 @@ export default function ShirtHome() {
               <div className="flex flex-col items-center gap-4">
                 <div className="px-6 py-3 rounded-2xl bg-white/40 backdrop-blur-md border border-black/10 flex flex-col items-center gap-2 pointer-events-auto">
                    <div className="flex items-center gap-3">
-                      <div className={\`px-3 py-1 rounded-md text-xs font-bold uppercase \${view === 'front' ? 'bg-black text-white' : 'bg-black/5 text-black/50'}\`}>Front</div>
-                      <div className={\`px-3 py-1 rounded-md text-xs font-bold uppercase \${view === 'back' ? 'bg-black text-white' : 'bg-black/5 text-black/50'}\`}>Back</div>
-                      <div className={\`px-3 py-1 rounded-md text-xs font-bold uppercase \${view === 'left' || view === 'right' ? 'bg-black text-white' : 'bg-black/5 text-black/50'}\`}>Side</div>
+                      <div className={`px-3 py-1 rounded-md text-xs font-bold uppercase \${view === 'front' ? 'bg-black text-white' : 'bg-black/5 text-black/50'}`}>Front</div>
+                      <div className={`px-3 py-1 rounded-md text-xs font-bold uppercase \${view === 'back' ? 'bg-black text-white' : 'bg-black/5 text-black/50'}`}>Back</div>
+                      <div className={`px-3 py-1 rounded-md text-xs font-bold uppercase \${view === 'left' || view === 'right' ? 'bg-black text-white' : 'bg-black/5 text-black/50'}`}>Side</div>
                    </div>
                    <p className="text-xs text-black/60 text-center">
                      {poseDetected ? "Tracking active. Turn around to see different views." : "Step back until your upper body is visible."}
