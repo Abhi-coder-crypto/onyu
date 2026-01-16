@@ -10,12 +10,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1768302850224.png";
+import fullSleeveFrontImg from "@assets/Full_sleeeve_front-removebg-preview_1768544609244.png";
 
 const TSHIRTS = [
-  { id: 1, image: "/tshirt-front.png", name: "Front View" },
-  { id: 2, image: "/tshirt-back.png", name: "Back View" },
-  { id: 3, image: "/tshirt-left.png", name: "Left View" },
-  { id: 4, image: "/tshirt-right.png", name: "Right View" },
+  { id: 1, image: "/tshirt-front.png", name: "Short Sleeve Front" },
+  { id: 2, image: fullSleeveFrontImg, name: "Full Sleeve Front" },
+  { id: 3, image: "/tshirt-back.png", name: "Back View" },
+  { id: 4, image: "/tshirt-left.png", name: "Left View" },
+  { id: 5, image: "/tshirt-right.png", name: "Right View" },
 ];
 
 export default function LandingPage() {
@@ -33,7 +35,7 @@ export default function LandingPage() {
           </div>
           
           <nav className="hidden lg:flex items-center justify-center flex-1 px-4 space-x-8">
-            <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Home</a>
+            <Link href="/" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Home</Link>
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">New Arrivals</a>
             <a href="#" className="text-base font-bold uppercase tracking-[0.2em] whitespace-nowrap hover:text-primary/70 transition-colors">Trending</a>
             <div className="flex items-center gap-1 cursor-pointer group whitespace-nowrap relative">
@@ -99,24 +101,25 @@ export default function LandingPage() {
             </div>
 
             {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-5 gap-4">
               {TSHIRTS.map((tshirt) => (
                 <button
                   key={tshirt.id}
                   onClick={() => setSelectedImage(tshirt.image)}
-                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex items-center justify-center overflow-hidden border transition-all duration-300 ${
+                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 \${
                     selectedImage === tshirt.image ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
                   }`}
                 >
                   <img 
                     src={tshirt.image} 
                     alt={tshirt.name} 
-                    className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-2/3 object-contain p-2 transition-transform duration-500 group-hover:scale-110"
                   />
+                  <span className="text-[8px] font-bold uppercase tracking-widest mt-1 mb-1 text-center px-1">{tshirt.name}</span>
                   {/* Small Try On Icon on Thumbnails */}
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
-                      <Zap className="w-3 h-3 text-white fill-current" />
+                  <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                      <Zap className="w-2 h-2 text-white fill-current" />
                     </div>
                   </div>
                 </button>

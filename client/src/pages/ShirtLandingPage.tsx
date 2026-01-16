@@ -10,16 +10,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1768302850224.png";
+import fullSleeveImg from "@assets/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-removebg-preview_1768544538115.png";
+import halfSleeveImg from "@assets/018-Free-Short-Sleeve-Shirt-Mockup-removebg-preview_1768544538116.png";
 
-const SHIRTS = [
-  { id: 1, image: "/shirt-front.png", name: "Front View" },
-  { id: 2, image: "/shirt-back.png", name: "Back View" },
-  { id: 3, image: "/shirt-left.png", name: "Left View" },
-  { id: 4, image: "/shirt-right.png", name: "Right View" },
+const SHIRT_VARIANTS = [
+  { id: 1, image: halfSleeveImg, name: "Half Sleeve" },
+  { id: 2, image: fullSleeveImg, name: "Full Sleeve" },
 ];
 
 export default function ShirtLandingPage() {
-  const [selectedImage, setSelectedImage] = useState(SHIRTS[0].image);
+  const [selectedImage, setSelectedImage] = useState(SHIRT_VARIANTS[0].image);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -99,20 +99,21 @@ export default function ShirtLandingPage() {
             </div>
 
             {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-6">
-              {SHIRTS.map((shirt) => (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              {SHIRT_VARIANTS.map((shirt) => (
                 <button
                   key={shirt.id}
                   onClick={() => setSelectedImage(shirt.image)}
-                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex items-center justify-center overflow-hidden border transition-all duration-300 \${
+                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 ${
                     selectedImage === shirt.image ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
                   }`}
                 >
                   <img 
                     src={shirt.image} 
                     alt={shirt.name} 
-                    className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-2/3 object-contain p-4 transition-transform duration-500 group-hover:scale-110"
                   />
+                  <span className="text-[10px] font-bold uppercase tracking-widest mt-1 mb-2">{shirt.name}</span>
                   {/* Small Try On Icon on Thumbnails */}
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
