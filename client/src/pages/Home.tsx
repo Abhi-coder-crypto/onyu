@@ -15,8 +15,8 @@ const TSHIRT_TYPES = {
     right: "/tshirt-right.png",
   },
   fullsleeve: {
-    front: "/fullsleeve-front.png",
-    back: "/fullsleeve-front.png", // Using front for back as well if back is missing
+    front: "/Full_sleeeve_front-removebg-preview_1768544609244.png",
+    back: "/Full_sleeeve_front-removebg-preview_1768544609244.png", 
     left: "/tshirt-left.png",
     right: "/tshirt-right.png",
   }
@@ -29,13 +29,13 @@ export default function Home() {
   const [isCameraActive, setIsCameraActive] = useState(true);
   const [shirtType, setShirtType] = useState<keyof typeof TSHIRT_TYPES>("standard");
   const [shirtImages, setShirtImages] = useState<Record<string, HTMLImageElement>>({});
-    const [view, setView] = useState<string>("front");
-    const [shirtColor] = useState<string>("#FFFFFF");
-    const [isSaving, setIsSaving] = useState(false);
-    const [poseDetected, setPoseDetected] = useState(false);
-    const [sizeData, setSizeData] = useState<{ size: string; confidence: number; label: string } | null>(null);
-    const lastViewRef = useRef<string>("front");
-    const viewBufferRef = useRef<{view: string, count: number}>({view: "front", count: 0});
+  const [view, setView] = useState<string>("front");
+  const [shirtColor] = useState<string>("#FFFFFF");
+  const [isSaving, setIsSaving] = useState(false);
+  const [poseDetected, setPoseDetected] = useState(false);
+  const [sizeData, setSizeData] = useState<{ size: string; confidence: number; label: string } | null>(null);
+  const lastViewRef = useRef<string>("front");
+  const viewBufferRef = useRef<{view: string, count: number}>({view: "front", count: 0});
   const { toast } = useToast();
 
   const calculateSize = useCallback((landmarks: any[], videoWidth: number, videoHeight: number) => {
@@ -54,13 +54,9 @@ export default function Home() {
       Math.pow((leftShoulder.y - leftHip.y) * videoHeight, 2)
     );
 
-    // 1. Calculate base size from normalized shoulder width and body height
-    // normalized width/height accounts for distance from camera
     const normShoulderWidth = shoulderWidthPx / videoWidth;
     const normBodyHeight = bodyHeightPx / videoHeight;
     
-    // Size estimation logic combining shoulder width and torso height
-    // Children typically have normShoulderWidth < 0.15 and normBodyHeight < 0.25
     let size = "M";
     
     if (normShoulderWidth < 0.15 || normBodyHeight < 0.25) {
@@ -73,14 +69,11 @@ export default function Home() {
       size = "XL";
     }
 
-    // 2. Calculate confidence based on proximity to the camera
     const distanceScore = Math.max(0, 1 - Math.abs(normShoulderWidth - 0.25) * 2);
     let confidence = 70 + (distanceScore * 25);
 
-    // Only suggest size if we have good tracking of key landmarks
     const hasLowerBody = (leftHip.visibility || 0) > 0.5 && (rightHip.visibility || 0) > 0.5;
     
-    // If we can't see enough of the body, we shouldn't be confident in the size
     if (!hasLowerBody) {
       return null;
     }
@@ -92,7 +85,16 @@ export default function Home() {
     };
   }, []);
 
-  // Load all t-shirt views
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+    if (type === "fullsleeve") {
+      setShirtType("fullsleeve");
+    } else {
+      setShirtType("standard");
+    }
+  }, []);
+
   useEffect(() => {
     const loadImages = async () => {
       const loaded: Record<string, HTMLImageElement> = {};
@@ -100,7 +102,7 @@ export default function Home() {
       const promises = Object.entries(views).map(([key, src]) => {
         return new Promise<void>((resolve) => {
           const img = new Image();
-          img.src = src;
+          img.src = src as string;
           img.crossOrigin = "anonymous";
           img.onload = () => {
             loaded[key] = img;
@@ -128,17 +130,12 @@ export default function Home() {
 
     ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Mirror the canvas to match the mirrored webcam
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
-    
-    // Draw the camera feed
     ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
 
     if (results.poseLandmarks) {
       const landmarks = results.poseLandmarks;
-      
       const leftShoulder = landmarks[11];
       const rightShoulder = landmarks[12];
       const leftHip = landmarks[23];
@@ -174,19 +171,16 @@ export default function Home() {
           detectedView = leftShoulder.z < rightShoulder.z ? "right" : "left"; 
         } else if (isFacingAway) {
           detectedView = "back";
-          const faceVisibilityThreshold = 0.15;
-          const isFaceVisibleStrict = (nose.visibility || 0) > faceVisibilityThreshold || 
-                                     (leftEye.visibility || 0) > faceVisibilityThreshold || 
-                                     (rightEye.visibility || 0) > faceVisibilityThreshold;
+          const faceVisibilityThresholdStrict = 0.15;
+          const isFaceVisibleStrict = (nose.visibility || 0) > faceVisibilityThresholdStrict || 
+                                     (leftEye.visibility || 0) > faceVisibilityThresholdStrict || 
+                                     (rightEye.visibility || 0) > faceVisibilityThresholdStrict;
           
           if (isFaceVisibleStrict && !isHeadBehindShoulders) {
             detectedView = "front";
           }
-        } else {
-          detectedView = "front";
         }
 
-        // Stability Smoothing: Only switch views if the new view is consistent for 3 frames
         if (detectedView === viewBufferRef.current.view) {
           viewBufferRef.current.count++;
         } else {
@@ -202,8 +196,8 @@ export default function Home() {
         if (shirtImage) {
           const bodyHeightPx = Math.abs(leftHip.y - leftShoulder.y) * videoHeight;
           const stableSideWidthPx = bodyHeightPx * 0.8;
-          const shoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
-          const drawWidth = shoulderWidthPx * ((stableView === "left" || stableView === "right") ? 1.6 : 2.2);
+          const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
+          const drawWidth = currentShoulderWidthPx * ((stableView === "left" || stableView === "right") ? 1.6 : 2.2);
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
           if (stableView === "right" || stableView === "left") {
@@ -213,30 +207,13 @@ export default function Home() {
           }
 
           ctx.translate(centerX, centerY);
-          if (shirtColor !== "#FFFFFF") {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = shirtImage.width;
-            tempCanvas.height = shirtImage.height;
-            const tempCtx = tempCanvas.getContext('2d');
-            if (tempCtx) {
-              tempCtx.drawImage(shirtImage, 0, 0);
-              tempCtx.globalCompositeOperation = 'source-in';
-              tempCtx.fillStyle = shirtColor;
-              tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-              ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
-              ctx.globalAlpha = 0.6;
-              ctx.drawImage(tempCanvas, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
-              ctx.globalAlpha = 1.0;
-            }
-          } else {
-            ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
-          }
+          ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
           ctx.translate(-centerX, -centerY);
         }
       }
     }
     ctx.restore();
-  }, [shirtImages, shirtColor, calculateSize]);
+  }, [shirtImages, calculateSize]);
 
   const poseRef = useRef<Pose | null>(null);
 
@@ -314,9 +291,7 @@ export default function Home() {
             />
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none" />
 
-            {/* Fullscreen UI Overlays */}
             <div className="absolute inset-0 z-20 pointer-events-none p-6 flex flex-col justify-between">
-              {/* Top Row: Navigation and Status */}
               <div className="flex items-center justify-between pointer-events-auto">
                 <Button
                   variant="ghost"
@@ -344,25 +319,14 @@ export default function Home() {
                         <span className="text-[10px] uppercase font-bold tracking-wider text-black/40 leading-none">Fit Confidence</span>
                         <div className="flex items-center gap-1.5">
                           <span className="text-lg font-bold tabular-nums leading-none">{sizeData.confidence}%</span>
-                          <div className={`w-1.5 h-1.5 rounded-full ${sizeData.confidence > 80 ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                          <div className={`w-1.5 h-1.5 rounded-full \${sizeData.confidence > 80 ? 'bg-green-500' : 'bg-yellow-500'}`} />
                         </div>
                       </div>
                     </div>
-                    {sizeData.size === "S" && (
-                      <div className="px-3 py-1 rounded-full bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">
-                        Junior Fit Suggestion
-                      </div>
-                    )}
-                    {sizeData.size !== "S" && (
-                      <div className="px-3 py-1 rounded-full bg-black text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">
-                        {sizeData.label}
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
 
-              {/* Side Actions */}
               <div className="flex flex-col items-end gap-3 pointer-events-auto">
                 <Button
                   variant="outline"
@@ -382,7 +346,6 @@ export default function Home() {
                 </Button>
               </div>
 
-              {/* Bottom View Feedback */}
               <div className="flex flex-col items-center gap-4">
                 <div className="px-6 py-3 rounded-2xl bg-white/40 backdrop-blur-md border border-black/10 flex flex-col items-center gap-2 pointer-events-auto">
                    <div className="flex items-center gap-3">

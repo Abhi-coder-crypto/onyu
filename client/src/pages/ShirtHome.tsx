@@ -7,9 +7,15 @@ import { useLocation } from "wouter";
 import { ArrowLeft, Camera as CameraIcon, X, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const SHIRT_TYPES = {
-  standard: {
-    front: "/shirt-front.png",
+const SHIRT_VARIANTS = {
+  half: {
+    front: "/018-Free-Short-Sleeve-Shirt-Mockup-removebg-preview_1768544538116.png",
+    back: "/shirt-back.png",
+    left: "/shirt-left.png",
+    right: "/shirt-right.png",
+  },
+  full: {
+    front: "/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-removebg-preview_1768544538115.png",
     back: "/shirt-back.png",
     left: "/shirt-left.png",
     right: "/shirt-right.png",
@@ -21,6 +27,7 @@ export default function ShirtHome() {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isCameraActive, setIsCameraActive] = useState(true);
+  const [shirtType, setShirtType] = useState<"half" | "full">("half");
   const [shirtImages, setShirtImages] = useState<Record<string, HTMLImageElement>>({});
   const [view, setView] = useState<string>("front");
   const [shirtColor] = useState<string>("#FFFFFF");
@@ -79,9 +86,19 @@ export default function ShirtHome() {
   }, []);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+    if (type === "full") {
+      setShirtType("full");
+    } else {
+      setShirtType("half");
+    }
+  }, []);
+
+  useEffect(() => {
     const loadImages = async () => {
       const loaded: Record<string, HTMLImageElement> = {};
-      const views = SHIRT_TYPES.standard;
+      const views = SHIRT_VARIANTS[shirtType];
       const promises = Object.entries(views).map(([key, src]) => {
         return new Promise<void>((resolve) => {
           const img = new Image();
@@ -97,7 +114,7 @@ export default function ShirtHome() {
       setShirtImages(loaded);
     };
     loadImages();
-  }, []);
+  }, [shirtType]);
 
   const onResults = useCallback((results: Results) => {
     if (!canvasRef.current || !webcamRef.current?.video || Object.keys(shirtImages).length === 0) return;

@@ -14,12 +14,12 @@ import fullSleeveImg from "@assets/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-remove
 import halfSleeveImg from "@assets/018-Free-Short-Sleeve-Shirt-Mockup-removebg-preview_1768544538116.png";
 
 const SHIRT_VARIANTS = [
-  { id: 1, image: halfSleeveImg, name: "Half Sleeve" },
-  { id: 2, image: fullSleeveImg, name: "Full Sleeve" },
+  { id: 1, image: halfSleeveImg, name: "Half Sleeve", type: "half" },
+  { id: 2, image: fullSleeveImg, name: "Full Sleeve", type: "full" },
 ];
 
 export default function ShirtLandingPage() {
-  const [selectedImage, setSelectedImage] = useState(SHIRT_VARIANTS[0].image);
+  const [selectedVariant, setSelectedVariant] = useState(SHIRT_VARIANTS[0]);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -82,14 +82,14 @@ export default function ShirtLandingPage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="relative group bg-zinc-100 rounded-3xl overflow-hidden aspect-[4/5] flex items-center justify-center border border-black/5">
               <img 
-                src={selectedImage} 
+                src={selectedVariant.image} 
                 alt="Product main view" 
                 className="w-full h-full object-contain p-12 transition-transform duration-700 group-hover:scale-105"
               />
               
               {/* Try On Button Overlay */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/5 backdrop-blur-[2px]">
-                <Link href="/try-on-shirt">
+                <Link href={`/try-on-shirt?type=${selectedVariant.type}`}>
                   <Button size="lg" className="rounded-full px-8 py-6 h-auto text-lg font-bold shadow-2xl bg-black text-white hover:bg-black/90 hover-elevate active-elevate-2">
                     <Zap className="mr-2 w-6 h-6 fill-current text-white" />
                     TRY ON NOW
@@ -103,9 +103,9 @@ export default function ShirtLandingPage() {
               {SHIRT_VARIANTS.map((shirt) => (
                 <button
                   key={shirt.id}
-                  onClick={() => setSelectedImage(shirt.image)}
+                  onClick={() => setSelectedVariant(shirt)}
                   className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 ${
-                    selectedImage === shirt.image ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
+                    selectedVariant.id === shirt.id ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
                   }`}
                 >
                   <img 

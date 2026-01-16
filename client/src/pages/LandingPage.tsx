@@ -13,15 +13,15 @@ import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1
 import fullSleeveFrontImg from "@assets/Full_sleeeve_front-removebg-preview_1768544609244.png";
 
 const TSHIRTS = [
-  { id: 1, image: "/tshirt-front.png", name: "Half Sleeve Front" },
-  { id: 2, image: "/tshirt-back.png", name: "Half Sleeve Back" },
-  { id: 3, image: "/tshirt-left.png", name: "Half Sleeve Left" },
-  { id: 4, image: "/tshirt-right.png", name: "Half Sleeve Right" },
-  { id: 5, image: fullSleeveFrontImg, name: "Full Sleeve Front" },
+  { id: 1, image: "/tshirt-front.png", name: "Half Sleeve Front", type: "standard" },
+  { id: 2, image: "/tshirt-back.png", name: "Half Sleeve Back", type: "standard" },
+  { id: 3, image: "/tshirt-left.png", name: "Half Sleeve Left", type: "standard" },
+  { id: 4, image: "/tshirt-right.png", name: "Half Sleeve Right", type: "standard" },
+  { id: 5, image: fullSleeveFrontImg, name: "Full Sleeve Front", type: "fullsleeve" },
 ];
 
 export default function LandingPage() {
-  const [selectedImage, setSelectedImage] = useState(TSHIRTS[0].image);
+  const [selectedVariant, setSelectedVariant] = useState(TSHIRTS[0]);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -84,14 +84,14 @@ export default function LandingPage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="relative group bg-zinc-100 rounded-3xl overflow-hidden aspect-[4/5] flex items-center justify-center border border-black/5">
               <img 
-                src={selectedImage} 
+                src={selectedVariant.image} 
                 alt="Product main view" 
                 className="w-full h-full object-contain p-12 transition-transform duration-700 group-hover:scale-105"
               />
               
               {/* Try On Button Overlay */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/5 backdrop-blur-[2px]">
-                <Link href="/try-on">
+                <Link href={`/try-on?type=${selectedVariant.type}`}>
                   <Button size="lg" className="rounded-full px-8 py-6 h-auto text-lg font-bold shadow-2xl bg-black text-white hover:bg-black/90 hover-elevate active-elevate-2">
                     <Zap className="mr-2 w-6 h-6 fill-current text-white" />
                     TRY ON NOW
@@ -105,9 +105,9 @@ export default function LandingPage() {
               {TSHIRTS.map((tshirt) => (
                 <button
                   key={tshirt.id}
-                  onClick={() => setSelectedImage(tshirt.image)}
-                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 \${
-                    selectedImage === tshirt.image ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
+                  onClick={() => setSelectedVariant(tshirt)}
+                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 ${
+                    selectedVariant.id === tshirt.id ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
                   }`}
                 >
                   <img 
