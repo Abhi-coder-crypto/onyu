@@ -7,6 +7,9 @@ import { useLocation } from "wouter";
 import { ArrowLeft, Camera as CameraIcon, X, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Import asset path directly to ensure it's available
+import fullSleeveFrontImg from "@assets/Full_sleeeve_front-removebg-preview_1768544609244.png";
+
 const TSHIRT_TYPES = {
   standard: {
     front: "/tshirt-front.png",
@@ -15,8 +18,8 @@ const TSHIRT_TYPES = {
     right: "/tshirt-right.png",
   },
   fullsleeve: {
-    front: "/Full_sleeeve_front-removebg-preview_1768544609244.png",
-    back: "/Full_sleeeve_front-removebg-preview_1768544609244.png", 
+    front: fullSleeveFrontImg,
+    back: fullSleeveFrontImg, 
     left: "/tshirt-left.png",
     right: "/tshirt-right.png",
   }
@@ -102,10 +105,14 @@ export default function Home() {
       const promises = Object.entries(views).map(([key, src]) => {
         return new Promise<void>((resolve) => {
           const img = new Image();
-          img.src = src as string;
+          img.src = src;
           img.crossOrigin = "anonymous";
           img.onload = () => {
             loaded[key] = img;
+            resolve();
+          };
+          img.onerror = () => {
+            console.error(`Failed to load image: ${src}`);
             resolve();
           };
         });
