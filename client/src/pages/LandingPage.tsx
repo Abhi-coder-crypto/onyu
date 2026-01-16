@@ -13,11 +13,11 @@ import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1
 import fullSleeveFrontImg from "@assets/Full_sleeeve_front-removebg-preview_1768544609244.png";
 
 const TSHIRTS = [
-  { id: 1, image: "/tshirt-front.png", name: "Short Sleeve Front" },
-  { id: 2, image: fullSleeveFrontImg, name: "Full Sleeve Front" },
-  { id: 3, image: "/tshirt-back.png", name: "Back View" },
-  { id: 4, image: "/tshirt-left.png", name: "Left View" },
-  { id: 5, image: "/tshirt-right.png", name: "Right View" },
+  { id: 1, image: "/tshirt-front.png", name: "Half Sleeve Front" },
+  { id: 2, image: "/tshirt-back.png", name: "Half Sleeve Back" },
+  { id: 3, image: "/tshirt-left.png", name: "Half Sleeve Left" },
+  { id: 4, image: "/tshirt-right.png", name: "Half Sleeve Right" },
+  { id: 5, image: fullSleeveFrontImg, name: "Full Sleeve Front" },
 ];
 
 export default function LandingPage() {
