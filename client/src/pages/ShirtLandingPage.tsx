@@ -13,13 +13,22 @@ import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1
 import fullSleeveImg from "@assets/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-removebg-preview_1768544538115.png";
 import halfSleeveImg from "@assets/018-Free-Short-Sleeve-Shirt-Mockup-removebg-preview_1768544538116.png";
 
-const SHIRT_VARIANTS = [
-  { id: 1, image: halfSleeveImg, name: "Half Sleeve", type: "half" },
-  { id: 2, image: fullSleeveImg, name: "Full Sleeve", type: "full" },
+const HALF_SLEEVE_SHIRTS = [
+  { id: 1, image: halfSleeveImg, name: "Half Sleeve Front", type: "half" },
+  { id: 2, image: halfSleeveImg, name: "Half Sleeve Back", type: "half" },
+  { id: 3, image: halfSleeveImg, name: "Half Sleeve Left", type: "half" },
+  { id: 4, image: halfSleeveImg, name: "Half Sleeve Right", type: "half" },
+];
+
+const FULL_SLEEVE_SHIRTS = [
+  { id: 5, image: fullSleeveImg, name: "Full Sleeve Front", type: "full" },
+  { id: 6, image: fullSleeveImg, name: "Full Sleeve Back", type: "full" },
+  { id: 7, image: fullSleeveImg, name: "Full Sleeve Left", type: "full" },
+  { id: 8, image: fullSleeveImg, name: "Full Sleeve Right", type: "full" },
 ];
 
 export default function ShirtLandingPage() {
-  const [selectedVariant, setSelectedVariant] = useState(SHIRT_VARIANTS[0]);
+  const [selectedVariant, setSelectedVariant] = useState(HALF_SLEEVE_SHIRTS[0]);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -99,29 +108,60 @@ export default function ShirtLandingPage() {
             </div>
 
             {/* Thumbnails */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              {SHIRT_VARIANTS.map((shirt) => (
-                <button
-                  key={shirt.id}
-                  onClick={() => setSelectedVariant(shirt)}
-                  className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 ${
-                    selectedVariant.id === shirt.id ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
-                  }`}
-                >
-                  <img 
-                    src={shirt.image} 
-                    alt={shirt.name} 
-                    className="w-full h-2/3 object-contain p-4 transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <span className="text-[10px] font-bold uppercase tracking-widest mt-1 mb-2">{shirt.name}</span>
-                  {/* Small Try On Icon on Thumbnails */}
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
-                      <Zap className="w-3 h-3 text-white fill-current" />
-                    </div>
-                  </div>
-                </button>
-              ))}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-black/40 px-1">Half Sleeves</h3>
+                <div className="grid grid-cols-4 gap-4">
+                  {HALF_SLEEVE_SHIRTS.map((shirt) => (
+                    <button
+                      key={shirt.id}
+                      onClick={() => setSelectedVariant(shirt)}
+                      className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 ${
+                        selectedVariant.id === shirt.id ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
+                      }`}
+                    >
+                      <img 
+                        src={shirt.image} 
+                        alt={shirt.name} 
+                        className="w-full h-2/3 object-contain p-2 transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <span className="text-[8px] font-bold uppercase tracking-widest mt-1 mb-1 text-center px-1">{shirt.name}</span>
+                      <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                          <Zap className="w-2 h-2 text-white fill-current" />
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-black/40 px-1">Full Sleeves</h3>
+                <div className="grid grid-cols-4 gap-4">
+                  {FULL_SLEEVE_SHIRTS.map((shirt) => (
+                    <button
+                      key={shirt.id}
+                      onClick={() => setSelectedVariant(shirt)}
+                      className={`relative group bg-zinc-50 rounded-2xl aspect-square flex flex-col items-center justify-center overflow-hidden border transition-all duration-300 ${
+                        selectedVariant.id === shirt.id ? 'border-black ring-1 ring-black/20' : 'border-black/5 hover:border-black/20'
+                      }`}
+                    >
+                      <img 
+                        src={shirt.image} 
+                        alt={shirt.name} 
+                        className="w-full h-2/3 object-contain p-2 transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <span className="text-[8px] font-bold uppercase tracking-widest mt-1 mb-1 text-center px-1">{shirt.name}</span>
+                      <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                          <Zap className="w-2 h-2 text-white fill-current" />
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
