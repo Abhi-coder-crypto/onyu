@@ -211,18 +211,18 @@ export default function ShirtHome() {
           
           const isFullSleeve = shirtType === "full";
           const drawWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? ((stableView === "left" || stableView === "right") ? 2.8 : 3.0) 
-            : ((stableView === "left" || stableView === "right") ? 2.6 : 3.2));
+            ? ((stableView === "left" || stableView === "right") ? 3.0 : 3.2) 
+            : ((stableView === "left" || stableView === "right") ? 2.8 : 3.2));
             
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
           if (stableView === "right" || stableView === "left") {
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.25);
+            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
           } else if (stableView === "back") {
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.25);
+            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
           } else {
-            // Front view: Adjusted vertical centering for full sleeve
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.28 : 0.22));
+            // Front view: Adjusted vertical centering to align with neck/shoulders
+            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
           }
 
           ctx.translate(centerX, centerY);
