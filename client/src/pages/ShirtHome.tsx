@@ -174,12 +174,12 @@ export default function ShirtHome() {
         const centerX = ((leftShoulder.x + rightShoulder.x) / 2) * videoWidth;
         let centerY = 0;
 
-        const sideViewThreshold = 0.08; 
-        const isSideView = shoulderDistance < sideViewThreshold && !isFacingAway && (Math.abs(leftShoulder.z - rightShoulder.z) > 0.1);
+        const sideViewThreshold = 0.12; 
+        const isSideView = shoulderDistance < sideViewThreshold && !isFacingAway && (Math.abs(leftShoulder.z - rightShoulder.z) > 0.05);
         
         let detectedView = "front";
         if (isSideView) {
-          detectedView = leftShoulder.z < rightShoulder.z ? "left" : "right"; 
+          detectedView = leftShoulder.z < rightShoulder.z ? "right" : "left"; 
         } else if (isFacingAway) {
           detectedView = "back";
           const faceVisibilityThresholdStrict = 0.15;
@@ -217,8 +217,8 @@ export default function ShirtHome() {
             
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
-          // Force vertical centering to be consistent across all views for better tracking
-          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.20 : 0.22));
+          // Adjust vertical centering for full sleeves to sit higher on the body
+          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.22 : 0.24));
 
           ctx.translate(centerX, centerY);
           ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
@@ -227,7 +227,7 @@ export default function ShirtHome() {
       }
     }
     ctx.restore();
-  }, [shirtImages, calculateSize]);
+  }, [shirtImages, calculateSize, shirtType]);
 
   const poseRef = useRef<Pose | null>(null);
 

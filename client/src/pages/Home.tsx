@@ -173,8 +173,8 @@ export default function Home() {
         const centerX = ((leftShoulder.x + rightShoulder.x) / 2) * videoWidth;
         let centerY = 0;
 
-        const sideViewThreshold = 0.08; 
-        const isSideView = shoulderDistance < sideViewThreshold && !isFacingAway && (Math.abs(leftShoulder.z - rightShoulder.z) > 0.1);
+        const sideViewThreshold = 0.12; 
+        const isSideView = shoulderDistance < sideViewThreshold && !isFacingAway && (Math.abs(leftShoulder.z - rightShoulder.z) > 0.05);
         
         let detectedView = "front";
         if (isSideView) {
@@ -213,14 +213,7 @@ export default function Home() {
           const drawWidth = currentShoulderWidthPx * (isFullSleeve ? 3.0 : 2.6); 
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
-          if (stableView === "right" || stableView === "left") {
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
-          } else if (stableView === "back") {
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
-          } else {
-            // Front view: alignment closer to neck
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.22 : 0.22));
-          }
+          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
 
           ctx.translate(centerX, centerY);
           ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
