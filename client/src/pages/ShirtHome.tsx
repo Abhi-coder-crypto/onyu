@@ -206,13 +206,15 @@ export default function ShirtHome() {
         const shirtImage = shirtImages[stableView];
         if (shirtImage) {
           const bodyHeightPx = Math.abs(leftHip.y - leftShoulder.y) * videoHeight;
-          const stableSideWidthPx = bodyHeightPx * 0.8;
+          const stableSideWidthPx = bodyHeightPx * 0.9;
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
-          const drawWidth = currentShoulderWidthPx * ((stableView === "left" || stableView === "right") ? 2.2 : 3.2); 
+          const drawWidth = currentShoulderWidthPx * ((stableView === "left" || stableView === "right") ? 2.6 : 3.2); 
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
           if (stableView === "right" || stableView === "left") {
+            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.25);
+          } else if (stableView === "back") {
             centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.25);
           } else {
             // Raised vertical centering for shirts (changed from 0.35 to 0.22 to match the neck better)
