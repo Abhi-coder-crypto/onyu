@@ -215,8 +215,8 @@ export default function ShirtHome() {
           const isFullSleeve = shirtType === "full";
           // Use more generous multipliers to ensure better coverage and tracking
           const drawWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? ((stableView === "left" || stableView === "right") ? 3.0 : 3.4) 
-            : ((stableView === "left" || stableView === "right") ? 2.8 : 3.2));
+            ? ((stableView === "left" || stableView === "right") ? 3.4 : 3.8) 
+            : ((stableView === "left" || stableView === "right") ? 3.2 : 3.6));
             
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
