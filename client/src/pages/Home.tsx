@@ -213,7 +213,7 @@ export default function Home() {
           const drawWidth = currentShoulderWidthPx * (isFullSleeve ? 3.0 : 2.6); 
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
-          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
+          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.24 : 0.25));
 
           ctx.translate(centerX, centerY);
           ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
