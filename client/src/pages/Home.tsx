@@ -17,8 +17,8 @@ const TSHIRT_TYPES = {
   standard: {
     front: "/tshirt-front.png",
     back: "/tshirt-back.png",
-    left: "/tshirt-right.png",
-    right: "/tshirt-left.png",
+    left: "/tshirt-left.png",
+    right: "/tshirt-right.png",
   },
   fullsleeve: {
     front: fullSleeveFrontImg,
@@ -178,7 +178,7 @@ export default function Home() {
         
         let detectedView = "front";
         if (isSideView) {
-          detectedView = leftShoulder.z < rightShoulder.z ? "left" : "right";
+          detectedView = leftShoulder.z < rightShoulder.z ? "right" : "left";
         } else if (isFacingAway) {
           detectedView = "back";
           const faceVisibilityThresholdStrict = 0.15;
