@@ -9,15 +9,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+// Import asset paths directly to ensure they are available
 import logoImg from "@assets/WhatsApp_Image_2026-01-13_at_4.42.21_PM-Photoroom_1768302850224.png";
 import fullSleeveImg from "@assets/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-removebg-preview_1768544538115.png";
-import halfSleeveImg from "@assets/018-Free-Short-Sleeve-Shirt-Mockup-removebg-preview_1768544538116.png";
+import shirtHalfFront from "@assets/Front_1768630945205.png";
+import shirtHalfBack from "@assets/Back_1768630945204.png";
+import shirtHalfLeft from "@assets/Left_1768630945204.png";
+import shirtHalfRight from "@assets/Right_1768630945204.png";
 
 const HALF_SLEEVE_SHIRTS = [
-  { id: 1, image: halfSleeveImg, name: "Half Sleeve Front", type: "half" },
-  { id: 2, image: halfSleeveImg, name: "Half Sleeve Back", type: "half" },
-  { id: 3, image: halfSleeveImg, name: "Half Sleeve Left", type: "half" },
-  { id: 4, image: halfSleeveImg, name: "Half Sleeve Right", type: "half" },
+  { id: 1, image: shirtHalfFront, name: "Half Sleeve Front", type: "half" },
+  { id: 2, image: shirtHalfBack, name: "Half Sleeve Back", type: "half" },
+  { id: 3, image: shirtHalfLeft, name: "Half Sleeve Left", type: "half" },
+  { id: 4, image: shirtHalfRight, name: "Half Sleeve Right", type: "half" },
 ];
 
 const FULL_SLEEVE_SHIRTS = [

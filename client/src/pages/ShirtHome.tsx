@@ -8,15 +8,18 @@ import { ArrowLeft, Camera as CameraIcon, X, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Import asset paths directly
+import shirtHalfFront from "@assets/Front_1768630945205.png";
+import shirtHalfBack from "@assets/Back_1768630945204.png";
+import shirtHalfLeft from "@assets/Left_1768630945204.png";
+import shirtHalfRight from "@assets/Right_1768630945204.png";
 import fullSleeveImg from "@assets/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-removebg-preview_1768544538115.png";
-import halfSleeveImg from "@assets/018-Free-Short-Sleeve-Shirt-Mockup-removebg-preview_1768544538116.png";
 
 const SHIRT_VARIANTS = {
   half: {
-    front: halfSleeveImg,
-    back: "/shirt-back.png",
-    left: "/shirt-left.png",
-    right: "/shirt-right.png",
+    front: shirtHalfFront,
+    back: shirtHalfBack,
+    left: shirtHalfLeft,
+    right: shirtHalfRight,
   },
   full: {
     front: fullSleeveImg,
