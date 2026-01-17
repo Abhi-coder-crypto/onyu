@@ -236,7 +236,7 @@ export default function ShirtHome() {
 
   useEffect(() => {
     if (!poseRef.current) {
-      const pose = new (window as any).Pose({
+      const pose = new Pose({
         locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
       });
       pose.setOptions({
