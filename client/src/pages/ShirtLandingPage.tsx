@@ -20,8 +20,8 @@ import shirtHalfRight from "@assets/Right_1768630945204.png";
 const HALF_SLEEVE_SHIRTS = [
   { id: 1, image: shirtHalfFront, name: "Half Sleeve Front", type: "half" },
   { id: 2, image: shirtHalfBack, name: "Half Sleeve Back", type: "half" },
-  { id: 3, image: shirtHalfLeft, name: "Half Sleeve Left", type: "half" },
-  { id: 4, image: shirtHalfRight, name: "Half Sleeve Right", type: "half" },
+  { id: 3, image: shirtHalfRight, name: "Half Sleeve Left", type: "half" },
+  { id: 4, image: shirtHalfLeft, name: "Half Sleeve Right", type: "half" },
 ];
 
 const FULL_SLEEVE_SHIRTS = [
