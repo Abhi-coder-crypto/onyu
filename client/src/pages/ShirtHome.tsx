@@ -23,9 +23,9 @@ const SHIRT_VARIANTS = {
   },
   full: {
     front: fullSleeveImg,
-    back: "/shirt-back.png",
-    left: "/shirt-left.png",
-    right: "/shirt-right.png",
+    back: fullSleeveImg,
+    left: fullSleeveImg,
+    right: fullSleeveImg,
   }
 };
 
