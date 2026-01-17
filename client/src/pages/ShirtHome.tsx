@@ -12,7 +12,10 @@ import shirtHalfFront from "@assets/Front_1768630945205.png";
 import shirtHalfBack from "@assets/Back_1768630945204.png";
 import shirtHalfLeft from "@assets/Left_1768630945204.png";
 import shirtHalfRight from "@assets/Right_1768630945204.png";
-import fullSleeveImg from "@assets/Long-Sleeve-Shirt-Mockup-PSD-1536x1024-removebg-preview_1768544538115.png";
+import fullSleeveImg from "@assets/Front_1768630971724.png";
+import fullSleeveBack from "@assets/Back_1768630971723.png";
+import fullSleeveLeft from "@assets/left_1768630971723.png";
+import fullSleeveRight from "@assets/Right_1768630971723.png";
 
 const SHIRT_VARIANTS = {
   half: {
@@ -23,9 +26,9 @@ const SHIRT_VARIANTS = {
   },
     full: {
       front: fullSleeveImg,
-      back: fullSleeveImg,
-      left: fullSleeveImg,
-      right: fullSleeveImg,
+      back: fullSleeveBack,
+      left: fullSleeveLeft,
+      right: fullSleeveRight,
     }
 };
 
