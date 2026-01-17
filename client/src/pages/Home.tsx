@@ -7,8 +7,10 @@ import { useLocation } from "wouter";
 import { ArrowLeft, Camera as CameraIcon, X, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-// Import asset path directly to ensure it's available
+// Import asset paths directly to ensure they are available
 import fullSleeveFrontImg from "@assets/Full_sleeeve_front-removebg-preview_1768544609244.png";
+import fullSleeveBackImg from "@assets/Full_sleeve_backview_1768627554202.png";
+import fullSleeveLeftImg from "@assets/Full_sleeve_left_view_1768627554201.png";
 
 const TSHIRT_TYPES = {
   standard: {
@@ -19,8 +21,8 @@ const TSHIRT_TYPES = {
   },
   fullsleeve: {
     front: fullSleeveFrontImg,
-    back: fullSleeveFrontImg, 
-    left: "/tshirt-left.png",
+    back: fullSleeveBackImg,
+    left: fullSleeveLeftImg,
     right: "/tshirt-right.png",
   }
 };
