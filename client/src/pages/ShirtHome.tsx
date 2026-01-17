@@ -210,20 +210,15 @@ export default function ShirtHome() {
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
           const isFullSleeve = shirtType === "full";
+          // Use more generous multipliers to ensure better coverage and tracking
           const drawWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? ((stableView === "left" || stableView === "right") ? 3.0 : 3.2) 
+            ? ((stableView === "left" || stableView === "right") ? 3.0 : 3.4) 
             : ((stableView === "left" || stableView === "right") ? 2.8 : 3.2));
             
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
-          if (stableView === "right" || stableView === "left") {
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
-          } else if (stableView === "back") {
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
-          } else {
-            // Front view: Adjusted vertical centering to align with neck/shoulders
-            centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
-          }
+          // Force vertical centering to be consistent across all views for better tracking
+          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.20 : 0.22));
 
           ctx.translate(centerX, centerY);
           ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
