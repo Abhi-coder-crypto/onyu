@@ -221,7 +221,9 @@ export default function ShirtHome() {
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
           // Adjust vertical centering for full sleeves to sit higher on the body
-          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.28 : 0.26));
+          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve 
+            ? ((stableView === "front" || stableView === "back") ? 0.22 : 0.28) 
+            : 0.26));
 
           ctx.translate(centerX, centerY);
           ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
