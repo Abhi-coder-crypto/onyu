@@ -64,19 +64,27 @@ export default function Home() {
     const normBodyHeight = bodyHeightPx / videoHeight;
     
     let size = "M";
+    let adjustment = "";
     
-    if (normShoulderWidth < 0.15 || normBodyHeight < 0.25) {
+    // Precise SKU mapping based on shoulder width
+    if (normShoulderWidth < 0.16) {
       size = "S";
-    } else if (normShoulderWidth < 0.25) {
+      if (normShoulderWidth > 0.14) adjustment = "Slim Fit - Size Up for Comfort";
+    } else if (normShoulderWidth < 0.24) {
       size = "M";
-    } else if (normShoulderWidth < 0.35) {
+      if (normShoulderWidth < 0.18) adjustment = "Tailored Fit - Size Down for Slim";
+      if (normShoulderWidth > 0.22) adjustment = "Athletic Fit - Size Up for Relaxed";
+    } else if (normShoulderWidth < 0.32) {
       size = "L";
+      if (normShoulderWidth < 0.26) adjustment = "Relaxed Fit - Size Down for Regular";
+      if (normShoulderWidth > 0.30) adjustment = "Broad Fit - Size Up for Oversized";
     } else {
       size = "XL";
+      if (normShoulderWidth < 0.34) adjustment = "Regular Fit - Size Down for L";
     }
 
-    const distanceScore = Math.max(0, 1 - Math.abs(normShoulderWidth - 0.25) * 2);
-    let confidence = 70 + (distanceScore * 25);
+    const distanceScore = Math.max(0, 1 - Math.abs(normShoulderWidth - 0.20) * 2);
+    let confidence = 75 + (distanceScore * 20);
 
     const hasLowerBody = (leftHip.visibility || 0) > 0.5 && (rightHip.visibility || 0) > 0.5;
     
@@ -87,7 +95,7 @@ export default function Home() {
     return {
       size,
       confidence: Math.round(Math.min(99, confidence)),
-      label: size === "M" ? "Perfect Fit" : "Suggested"
+      label: adjustment || (size === "M" ? "Perfect Fit" : "Recommended SKU")
     };
   }, []);
 
@@ -213,8 +221,8 @@ export default function Home() {
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
           const isFullSleeve = shirtType === "fullsleeve";
-          // Adjusted width multipliers for better coverage and consistency
-          const drawWidth = currentShoulderWidthPx * (isFullSleeve ? 3.0 : 2.6); 
+          // Perfectly fit shirt width to exact shoulder length with precise multipliers
+          const drawWidth = currentShoulderWidthPx * (isFullSleeve ? 3.1 : 2.7); 
           const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
 
           centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.28 : 0.32));
