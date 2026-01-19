@@ -250,9 +250,10 @@ export default function ShirtHome() {
           const alpha = 0.15; // Smoothing factor
           // Shift centerX slightly to the RIGHT (by 5.5% of video width) specifically for full-sleeve front view 
           // to fix the "too right" alignment in mirrored camera. 
-          // Note: In mirrored view, adding to centerX moves the overlay to the left on the screen, 
-          // and subtracting moves it to the right on the screen.
-          const horizontalShift = (isFullSleeve && isFrontView) ? (videoWidth * 0.055) : 0;
+          // Note: In mirrored view, adding to centerX moves the overlay to the LEFT on the screen, 
+          // and subtracting moves it to the RIGHT on the screen.
+          // Correcting to move the front shirt LEFT on screen (adding to centerX)
+          const horizontalShift = (isFullSleeve && isFrontView) ? (videoWidth * 0.085) : 0;
           const adjustedCenterX = centerX + horizontalShift;
 
           smoothPointsRef.current.x = smoothPointsRef.current.x === 0 ? adjustedCenterX : smoothPointsRef.current.x * (1 - alpha) + adjustedCenterX * alpha;
