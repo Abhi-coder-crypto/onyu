@@ -115,7 +115,7 @@ export default function Home() {
     } else {
       setShirtType("standard");
     }
-  }, []);
+  }, [window.location.search]);
 
   useEffect(() => {
     const loadImages = async () => {

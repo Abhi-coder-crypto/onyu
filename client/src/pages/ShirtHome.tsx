@@ -119,7 +119,7 @@ export default function ShirtHome() {
     } else {
       setShirtType("half");
     }
-  }, []);
+  }, [window.location.search]);
 
   useEffect(() => {
     const loadImages = async () => {
