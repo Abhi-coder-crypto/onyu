@@ -231,8 +231,9 @@ export default function ShirtHome() {
           const isFullSleeve = shirtType === "full";
           // Perfectly fit shirt width to exact shoulder length with premium precision multipliers
           // Matching full-sleeve multipliers to half-sleeve's "perfect" tracking (3.3 for front/back, 2.9 for side)
+          // Reduced full-sleeve front/back multiplier slightly (3.3 -> 3.1) to address "little big" feedback
           const targetWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? ((stableView === "left" || stableView === "right") ? 2.9 : 3.3) 
+            ? ((stableView === "left" || stableView === "right") ? 2.9 : 3.1) 
             : ((stableView === "left" || stableView === "right") ? 2.9 : 3.3));
             
           const drawHeight = targetWidth * (shirtImage.height / shirtImage.width);
