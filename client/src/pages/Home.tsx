@@ -302,6 +302,14 @@ export default function Home() {
       if (!isCameraActive || !webcamRef.current?.video || !poseRef.current) return;
 
       const pose = poseRef.current;
+      
+      // Clear any existing camera instance
+      if (camera) {
+        try {
+          camera.stop();
+        } catch (e) {}
+      }
+
       camera = new Camera(webcamRef.current.video, {
         onFrame: async () => {
           if (!isActive) return;
@@ -324,9 +332,22 @@ export default function Home() {
       });
 
       try {
+        // Suppress the built-in alert by overriding window.alert temporarily
+        const originalAlert = window.alert;
+        window.alert = () => {};
+
+        // Use a small delay before starting to ensure video element is ready
+        await new Promise(resolve => setTimeout(resolve, 800));
         await camera.start();
+
+        // Restore alert after successful start
+        setTimeout(() => { window.alert = originalAlert; }, 1000);
       } catch (err) {
         console.error("Camera start error:", err);
+        // Suppress the error message and retry silently
+        if (isActive) {
+          setTimeout(initializeMediaPipe, 2500);
+        }
       }
     };
 
