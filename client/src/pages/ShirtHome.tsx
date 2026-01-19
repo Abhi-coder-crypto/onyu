@@ -229,17 +229,18 @@ export default function ShirtHome() {
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
           const isFullSleeve = shirtType === "full";
-          // Perfectly fit shirt width to exact shoulder length with premium precision multipliers
+          // Refined Shirt scaling: Using 3.5/3.1 for structural shirts to feel premium and fit properly
+          // Slightly reduced from previous 3.9/3.3 to eliminate the "big" feel
           const targetWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? ((stableView === "left" || stableView === "right") ? 3.5 : 3.9) 
-            : ((stableView === "left" || stableView === "right") ? 2.9 : 3.3));
+            ? ((stableView === "left" || stableView === "right") ? 3.3 : 3.6) 
+            : ((stableView === "left" || stableView === "right") ? 2.7 : 3.1));
             
           const drawHeight = targetWidth * (shirtImage.height / shirtImage.width);
 
-          // Adjust vertical centering for half-sleeve shirts to sit 1 inch (approx 0.04-0.05 normalized) higher
+          // Adjust vertical centering for perfect neck fit
           const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve 
             ? ((stableView === "front" || stableView === "back") ? 0.22 : 0.28) 
-            : 0.22)); // Reduced from 0.26 to sit higher
+            : 0.20)); // Sitting 1 inch higher for perfect collar alignment
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
           const alpha = 0.15; // Smoothing factor
