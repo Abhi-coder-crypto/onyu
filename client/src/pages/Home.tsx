@@ -289,10 +289,16 @@ export default function Home() {
     let camera: Camera | null = null;
     if (isCameraActive && webcamRef.current?.video && poseRef.current) {
       const pose = poseRef.current;
-      camera = new Camera(webcamRef.current.video, {
+      const video = webcamRef.current.video;
+      camera = new Camera(video, {
         onFrame: async () => {
           if (webcamRef.current?.video) {
-            await pose.send({ image: webcamRef.current.video });
+            // Ensure WebGL context is ready and handle potential timestamp mismatch
+            try {
+              await pose.send({ image: video });
+            } catch (err) {
+              console.warn("MediaPipe frame skipped:", err);
+            }
           }
         },
         width: 1280,
