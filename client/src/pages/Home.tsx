@@ -229,11 +229,12 @@ export default function Home() {
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
           const isFullSleeve = shirtType === "fullsleeve";
-          // Refined T-shirt fit: Reduced multipliers to make it less 'massy' and more tailored
-          const targetWidth = currentShoulderWidthPx * (isFullSleeve ? 2.9 : 2.5); 
+          // Refined T-shirt fit: Significantly reduced multipliers to remove 'massy' feel
+          // Standard width multiplier reduced from 2.5 to 2.2 for a more tailored athletic fit
+          const targetWidth = currentShoulderWidthPx * (isFullSleeve ? 2.7 : 2.2); 
           const drawHeight = targetWidth * (shirtImage.height / shirtImage.width);
 
-          // Adjust vertical centering for half-sleeve shirts to sit 1 inch higher
+          // Adjust vertical centering for half-sleeve shirts to sit high on the neckline
           const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.28 : 0.28)); 
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
