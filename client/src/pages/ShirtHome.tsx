@@ -248,9 +248,9 @@ export default function ShirtHome() {
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
           const alpha = 0.15; // Smoothing factor
-          // Shift centerX slightly to the left (by 3.5% of video width) specifically for full-sleeve front view 
-          // to fix the "too right" alignment in mirrored camera
-          const horizontalShift = (isFullSleeve && isFrontView) ? (videoWidth * 0.035) : 0;
+          // Shift centerX slightly to the left (by 5.5% of video width) specifically for full-sleeve front view 
+          // to fix the "too right" alignment in mirrored camera (increased from 3.5%)
+          const horizontalShift = (isFullSleeve && isFrontView) ? (videoWidth * 0.055) : 0;
           const adjustedCenterX = centerX - horizontalShift;
 
           smoothPointsRef.current.x = smoothPointsRef.current.x === 0 ? adjustedCenterX : smoothPointsRef.current.x * (1 - alpha) + adjustedCenterX * alpha;
