@@ -296,17 +296,24 @@ export default function Home() {
   useEffect(() => {
     let camera: Camera | null = null;
     let isProcessing = false;
+    let isActive = true;
 
-    if (isCameraActive && webcamRef.current?.video && poseRef.current) {
+    const initializeMediaPipe = async () => {
+      if (!isCameraActive || !webcamRef.current?.video || !poseRef.current) return;
+
       const pose = poseRef.current;
       camera = new Camera(webcamRef.current.video, {
         onFrame: async () => {
+          if (!isActive) return;
           if (webcamRef.current?.video && !isProcessing) {
             isProcessing = true;
             try {
               await pose.send({ image: webcamRef.current.video });
             } catch (err) {
-              console.error("MediaPipe error:", err);
+              // Only log if it's not a WASM memory abort which is common during teardown
+              if (!(err instanceof Error && err.message.includes("Aborted"))) {
+                console.error("MediaPipe error:", err);
+              }
             } finally {
               isProcessing = false;
             }
@@ -315,10 +322,21 @@ export default function Home() {
         width: 1280,
         height: 720,
       });
-      camera.start();
-    }
+
+      try {
+        await camera.start();
+      } catch (err) {
+        console.error("Camera start error:", err);
+      }
+    };
+
+    initializeMediaPipe();
+
     return () => { 
-      if (camera) camera.stop();
+      isActive = false;
+      if (camera) {
+        camera.stop();
+      }
     };
   }, [isCameraActive, onResults]);
 
