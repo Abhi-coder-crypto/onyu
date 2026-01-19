@@ -233,17 +233,17 @@ export default function ShirtHome() {
           const isBackView = stableView === "back";
 
           // Perfectly fit shirt width to exact shoulder length
-          // Front: 3.0 (reduced for better fit), Back: 3.5 (increased for better shoulder fit)
+          // Front: 2.95 (further tapered), Back: 3.6 (enhanced shoulder fit)
           const targetWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? (stableView === "left" || stableView === "right" ? 2.9 : (isFrontView ? 3.0 : 3.5)) 
+            ? (stableView === "left" || stableView === "right" ? 2.9 : (isFrontView ? 2.95 : 3.6)) 
             : ((stableView === "left" || stableView === "right") ? 2.9 : 3.3));
             
-          // Height Adjustment: Front: 0.88 (reduced further), Back: 1.1 (increased for better coverage)
-          const heightMultiplier = isFullSleeve ? (isFrontView ? 0.88 : 1.1) : 1.0;
+          // Height Adjustment: Front: 0.86 (refined height), Back: 1.15 (extended for full coverage)
+          const heightMultiplier = isFullSleeve ? (isFrontView ? 0.86 : 1.15) : 1.0;
           const drawHeight = (targetWidth * (shirtImage.height / shirtImage.width)) * heightMultiplier;
 
-          // Vertical Centering: Front: 0.22, Back: 0.30 (pushed down more for better shoulder coverage)
-          const verticalOffset = isFullSleeve && isBackView ? 0.30 : 0.22;
+          // Vertical Centering: Front: 0.22, Back: 0.32 (optimized for back shoulder alignment)
+          const verticalOffset = isFullSleeve && isBackView ? 0.32 : 0.22;
           const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * verticalOffset);
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
