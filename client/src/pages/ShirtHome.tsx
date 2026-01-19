@@ -238,12 +238,12 @@ export default function ShirtHome() {
             ? (stableView === "left" || stableView === "right" ? 2.9 : (isFrontView ? 3.1 : 3.3)) 
             : ((stableView === "left" || stableView === "right") ? 2.9 : 3.3));
             
-          // Height Adjustment: Front: 0.92 (reduced to fix "too big"), Back: 1.0 (original for smallness fix)
-          const heightMultiplier = isFullSleeve && isFrontView ? 0.92 : 1.0;
+          // Height Adjustment: Front: 0.90 (further reduced for perfect fit), Back: 1.05 (increased slightly)
+          const heightMultiplier = isFullSleeve ? (isFrontView ? 0.90 : 1.05) : 1.0;
           const drawHeight = (targetWidth * (shirtImage.height / shirtImage.width)) * heightMultiplier;
 
-          // Vertical Centering: Front: 0.22, Back: 0.25 (pushed down slightly for better coverage)
-          const verticalOffset = isFullSleeve && isBackView ? 0.25 : 0.22;
+          // Vertical Centering: Front: 0.22, Back: 0.27 (pushed down more for better coverage)
+          const verticalOffset = isFullSleeve && isBackView ? 0.27 : 0.22;
           const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * verticalOffset);
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
