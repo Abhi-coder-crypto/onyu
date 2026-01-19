@@ -229,21 +229,22 @@ export default function ShirtHome() {
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
           const isFullSleeve = shirtType === "full";
-          // Perfectly fit shirt width to exact shoulder length with premium precision multipliers
-          // Matching full-sleeve multipliers to half-sleeve's "perfect" tracking (3.3 for front/back, 2.9 for side)
-          // Reduced full-sleeve front/back multiplier slightly (3.3 -> 3.1) to address "little big" feedback
+          const isFrontView = stableView === "front";
+          const isBackView = stableView === "back";
+
+          // Perfectly fit shirt width to exact shoulder length
+          // Front: 3.1 (slightly reduced for precision), Back: 3.3 (original working size)
           const targetWidth = currentShoulderWidthPx * (isFullSleeve 
-            ? ((stableView === "left" || stableView === "right") ? 2.9 : 3.1) 
+            ? (stableView === "left" || stableView === "right" ? 2.9 : (isFrontView ? 3.1 : 3.3)) 
             : ((stableView === "left" || stableView === "right") ? 2.9 : 3.3));
             
-          // SIDE VIEW HEIGHT & DEPTH ADJUSTMENT: 
-          // For full-sleeve front view, reduce height to fix "big in height" issue
-          const isFrontView = stableView === "front" || stableView === "back";
+          // Height Adjustment: Front: 0.92 (reduced to fix "too big"), Back: 1.0 (original for smallness fix)
           const heightMultiplier = isFullSleeve && isFrontView ? 0.92 : 1.0;
           const drawHeight = (targetWidth * (shirtImage.height / shirtImage.width)) * heightMultiplier;
 
-          // Adjust vertical centering: matching full-sleeve to half-sleeve's "perfect" 0.22 offset
-          const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * 0.22);
+          // Vertical Centering: Front: 0.22, Back: 0.25 (pushed down slightly for better coverage)
+          const verticalOffset = isFullSleeve && isBackView ? 0.25 : 0.22;
+          const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * verticalOffset);
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
           const alpha = 0.15; // Smoothing factor
