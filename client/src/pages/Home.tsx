@@ -231,17 +231,18 @@ export default function Home() {
           const isFullSleeve = shirtType === "fullsleeve";
           // Refined T-shirt fit: Significantly reduced multipliers to remove 'massy' feel
           // Standard width multiplier reduced from 2.5 to 2.2 for a more tailored athletic fit
-          const targetWidth = currentShoulderWidthPx * (isFullSleeve ? 2.7 : 2.2); 
+          const targetWidth = currentShoulderWidthPx * (isFullSleeve ? 2.6 : 2.1); 
           
-          // SIDE VIEW HEIGHT ADJUSTMENT: 
-          // If in side view (left or right), we reduce the height multiplier by 15% 
-          // to prevent the "massy/long" look from the side while preserving front/back.
+          // SIDE VIEW HEIGHT & DEPTH ADJUSTMENT: 
+          // For side views, we reduce both height and vertical offset to tighten the fit 
+          // and prevent the "massy" look.
           const isSideView = stableView === "left" || stableView === "right";
-          const heightMultiplier = isSideView ? 0.85 : 1.0;
+          const heightMultiplier = isSideView ? 0.78 : 1.0; // Further reduced from 0.85 to 0.78 for side view
           const drawHeight = (targetWidth * (shirtImage.height / shirtImage.width)) * heightMultiplier;
 
-          // Adjust vertical centering for half-sleeve shirts to sit high on the neckline
-          const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve ? 0.28 : 0.28)); 
+          // Adjust vertical centering: side views need to sit slightly higher and tighter
+          const verticalOffset = isSideView ? 0.22 : 0.28;
+          const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * verticalOffset); 
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
           const alpha = 0.15; // Smoothing factor
