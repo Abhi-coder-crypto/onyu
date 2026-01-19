@@ -240,10 +240,9 @@ export default function Home() {
           const heightMultiplier = isSideView ? 0.78 : 1.0; // Further reduced from 0.85 to 0.78 for side view
           const drawHeight = (targetWidth * (shirtImage.height / shirtImage.width)) * heightMultiplier;
 
-          // Adjust vertical centering: side views need to sit significantly lower 
-          // to properly clear the face and sit on the actual shoulder line.
-          // Changed verticalOffset from 0.05 to 0.45 to move the garment DOWN.
-          const verticalOffset = isSideView ? 0.45 : 0.28;
+          // Adjust vertical centering: side views sit high on shoulder
+          // Adjusted verticalOffset from 0.45 down to 0.38 to move the garment UP slightly
+          const verticalOffset = isSideView ? 0.38 : 0.28;
           const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * verticalOffset); 
 
           // Premium Smoothing (EMA Filter) to eliminate jitter
