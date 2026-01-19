@@ -8,7 +8,7 @@ import { ArrowLeft, Camera as CameraIcon, X, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Import asset paths directly
-import shirtHalfFront from "@assets/Front_1768630945205.png";
+import shirtHalfFront from "@assets/Gemini_Generated_Image_fpu0u0fpu0u0fpu0-removebg-preview_1768799597473.png";
 import shirtHalfBack from "@assets/Back_1768630945204.png";
 import shirtHalfLeft from "@assets/Left_1768630945204.png";
 import shirtHalfRight from "@assets/Right_1768630945204.png";
