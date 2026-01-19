@@ -46,6 +46,7 @@ export default function ShirtHome() {
   const [sizeData, setSizeData] = useState<{ size: string; confidence: number; label: string } | null>(null);
   const lastViewRef = useRef<string>("front");
   const viewBufferRef = useRef<{view: string, count: number}>({view: "front", count: 0});
+  const smoothPointsRef = useRef<{x: number, y: number, width: number}>({x: 0, y: 0, width: 0});
   const { toast } = useToast();
 
   const calculateSize = useCallback((landmarks: any[], videoWidth: number, videoHeight: number) => {
@@ -227,21 +228,38 @@ export default function ShirtHome() {
           const currentShoulderWidthPx = (stableView === "left" || stableView === "right") ? stableSideWidthPx : Math.abs(leftShoulder.x - rightShoulder.x) * videoWidth;
           
           const isFullSleeve = shirtType === "full";
-          // Perfectly fit shirt width to exact shoulder length with precise multipliers
-          const drawWidth = currentShoulderWidthPx * (isFullSleeve 
+          // Perfectly fit shirt width to exact shoulder length with premium precision multipliers
+          const targetWidth = currentShoulderWidthPx * (isFullSleeve 
             ? ((stableView === "left" || stableView === "right") ? 3.5 : 3.9) 
             : ((stableView === "left" || stableView === "right") ? 2.9 : 3.3));
             
-          const drawHeight = drawWidth * (shirtImage.height / shirtImage.width);
+          const drawHeight = targetWidth * (shirtImage.height / shirtImage.width);
 
           // Adjust vertical centering for full sleeves to sit higher on the body
-          centerY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve 
+          const targetY = ((leftShoulder.y + rightShoulder.y) / 2) * videoHeight + (drawHeight * (isFullSleeve 
             ? ((stableView === "front" || stableView === "back") ? 0.22 : 0.28) 
             : 0.26));
 
-          ctx.translate(centerX, centerY);
-          ctx.drawImage(shirtImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
-          ctx.translate(-centerX, -centerY);
+          // Premium Smoothing (EMA Filter) to eliminate jitter
+          const alpha = 0.15; // Smoothing factor
+          smoothPointsRef.current.x = smoothPointsRef.current.x === 0 ? centerX : smoothPointsRef.current.x * (1 - alpha) + centerX * alpha;
+          smoothPointsRef.current.y = smoothPointsRef.current.y === 0 ? targetY : smoothPointsRef.current.y * (1 - alpha) + targetY * alpha;
+          smoothPointsRef.current.width = smoothPointsRef.current.width === 0 ? targetWidth : smoothPointsRef.current.width * (1 - alpha) + targetWidth * alpha;
+
+          const smoothedX = smoothPointsRef.current.x;
+          const smoothedY = smoothPointsRef.current.y;
+          const smoothedWidth = smoothPointsRef.current.width;
+          const smoothedHeight = smoothedWidth * (shirtImage.height / shirtImage.width);
+
+          ctx.translate(smoothedX, smoothedY);
+          
+          // Premium Visual Effects: Subtle shadow and blending
+          ctx.shadowColor = "rgba(0,0,0,0.15)";
+          ctx.shadowBlur = 15;
+          ctx.shadowOffsetY = 5;
+          
+          ctx.drawImage(shirtImage, -smoothedWidth / 2, -smoothedHeight / 2, smoothedWidth, smoothedHeight);
+          ctx.translate(-smoothedX, -smoothedY);
         }
       }
     }
@@ -256,11 +274,11 @@ export default function ShirtHome() {
         locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
       });
       pose.setOptions({
-        modelComplexity: 1,
+        modelComplexity: 2, // High precision for premium client experience
         smoothLandmarks: true,
-        enableSegmentation: false,
-        minDetectionConfidence: 0.5,
-        minTrackingConfidence: 0.5,
+        enableSegmentation: true, // Enable for better occlusion handling
+        minDetectionConfidence: 0.6,
+        minTrackingConfidence: 0.6,
       });
       poseRef.current = pose;
     }
